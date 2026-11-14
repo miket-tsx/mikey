@@ -622,15 +622,6 @@ h1 em {
   gap: clamp(30px, 6vw, 80px);
 }
 .about p { color: var(--moon-dim); max-width: 60ch; }
-.about .now {
-  margin: 26px 0 0;
-  max-width: none;
-  padding-left: 14px;
-  border-left: 1px solid rgba(216, 165, 95, .35);
-  font: 400 13px/1.7 var(--mono);
-  color: var(--moon-faint);
-  letter-spacing: .01em;
-}
 .about .big {
   font: 400 clamp(1.35rem, 2.6vw, 1.9rem)/1.35 var(--serif);
   color: var(--moon);
