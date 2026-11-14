@@ -22,7 +22,6 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     el.classList.add('done');
     document.body.classList.add('ready');
     setTimeout(() => el.remove(), 1000);
-    document.getElementById('dock').classList.add('show');
   }
 
   requestAnimationFrame(tick);
@@ -224,49 +223,3 @@ addEventListener('scroll', () => {
   })();
 })();
 
-/* ───────────────────────── background music ───────────────────────── */
-(() => {
-  const audio = document.getElementById('bgm');
-  const dock = document.getElementById('dock');
-  const play = document.getElementById('play');
-  const meta = dock.querySelector('.dock-meta span');
-  let armed = true;
-
-  const toggle = async () => {
-    if (!audio.paused) { audio.pause(); dock.classList.remove('playing'); return; }
-    try {
-      await audio.play();
-      dock.classList.add('playing');
-      dock.classList.remove('missing');
-    } catch (err) {
-      dock.classList.remove('playing');
-      if (audio.error || err.name === 'NotSupportedError') {
-        dock.classList.add('missing');
-        meta.textContent = 'add golden-brown.mp3 to /public';
-      }
-    }
-  };
-
-  play.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
-  audio.addEventListener('play', () => dock.classList.add('playing'));
-  audio.addEventListener('pause', () => dock.classList.remove('playing'));
-  audio.addEventListener('error', () => {
-    dock.classList.add('missing');
-    meta.textContent = 'add golden-brown.mp3 to /public';
-  });
-
-  /* browsers block unmuted autoplay — start on the first real gesture */
-  const kick = () => {
-    if (!armed) return;
-    armed = false;
-    removeEventListener('pointerdown', kick);
-    removeEventListener('keydown', kick);
-    toggle();
-  };
-  addEventListener('pointerdown', kick, { once: true });
-  addEventListener('keydown', kick, { once: true });
-
-  /* try immediately anyway, some browsers allow it */
-  audio.volume = 0.55;
-  audio.play().then(() => { dock.classList.add('playing'); armed = false; }).catch(() => {});
-})();

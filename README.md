@@ -35,23 +35,13 @@ docker build -t mikey-site .
 docker run -p 25138:25138 -e PORT=25138 mikey-site
 ```
 
-## Background music
-
-The dock plays `/public/golden-brown.mp3` on loop. The file is not in the repo —
-drop your own copy at `public/golden-brown.mp3` and it works. Browsers block
-unmuted autoplay, so playback starts on the first click or keypress; the dock
-button toggles it after that.
-
-If the file is missing, the dock label changes to `drop golden-brown.mp3 in /public`
-instead of failing silently.
-
 ## Files
 
 ```
 server.js            express + github cache
 public/index.html    markup
 public/styles.css    all styling, moonlight tokens at the top
-public/app.js        preloader, stars, repos, audio
+public/app.js        preloader, stars, repos
 public/avatar.png    profile image (from github.com/miket-tsx)
 public/404.html      not found
 Dockerfile           container build
