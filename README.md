@@ -21,19 +21,32 @@ npm start
 
 ## Deploy to bot-hosting.net
 
-1. Push this repo.
-2. Set the start command to `npm start`.
-3. Point the exposed port at `25138`.
-4. Optional: set `GITHUB_TOKEN` in the environment. Unauthenticated GitHub
-   allows 60 requests an hour per IP; the 5-minute cache uses 12. A token
-   raises that to 5000 and makes the repo panel resilient to shared hosting IPs.
+Their panel runs an **entry file**, not `npm start`, and hands you a port through
+`SERVER_PORT`. Both are handled.
 
-Docker is included if the panel wants an image:
+1. **New Deployment** → type **Application** → Source **GitHub** →
+   pick `miket-tsx/mikey` → Runtime **Node.js**.
+2. **Startup** tab → `Entry File (STARTUP_FILE)` = `server.js`.
+3. Leave the port alone. The app reads `SERVER_PORT` first, then `PORT`, then
+   falls back to `25138`.
+4. **Files** tab → do not upload `node_modules`; the panel installs from
+   `package.json` on boot.
+5. **Domains** tab → **Activate** for a free
+   `<name>.apps.bot-hosting.cloud` with HTTPS, or **Attach** `miket.env.pm`
+   and add the DNS records it prints.
+6. Optional: add `GITHUB_TOKEN` in environment variables. Unauthenticated
+   GitHub allows 60 requests/hour per IP; the 5-minute cache uses 12, and a
+   shared host IP can burn that fast. A token raises it to 5000.
 
-```sh
-docker build -t mikey-site .
-docker run -p 25138:25138 -e PORT=25138 mikey-site
-```
+Free plan is 256 MB RAM / 512 MB disk / 1 deployment, and you re-renew it every
+4 days from the panel.
+
+### Notes
+
+- `server.js` binds `HOST` (default `0.0.0.0`) so the panel's proxy can reach it.
+- If it exits with `could not bind`, the allocated port didn't match — set `PORT`
+  or `SERVER_PORT` in the environment to the port shown in the panel.
+- `dotfiles: 'allow'` is required, otherwise `/.well-known/discord` 404s.
 
 ## Files
 

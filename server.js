@@ -1,10 +1,12 @@
 import express from 'express';
+import https from 'node:https';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = Number(process.env.PORT) || 25138;
+const PORT = Number(process.env.PORT || process.env.SERVER_PORT) || 25138;
+const HOST = process.env.HOST || '0.0.0.0';
 const USER = process.env.GITHUB_USER || 'miket-tsx';
 const TTL = 5 * 60 * 1000;
 
@@ -13,6 +15,32 @@ app.set('trust proxy', 1);
 
 /* ── tiny in-memory cache, survives panel refreshes ── */
 const cache = { at: 0, data: null, error: null };
+
+/* Node <18 has no global fetch; panels sometimes ship an old runtime */
+function getJSON(url, headers) {
+  if (typeof globalThis.fetch === 'function') {
+    return fetch(url, { headers }).then(async (res) => {
+      if (!res.ok) throw new Error(`github responded ${res.status}`);
+      return res.json();
+    });
+  }
+  return new Promise((resolve, reject) => {
+    const req = https.get(url, { headers }, (res) => {
+      if (res.statusCode !== 200) {
+        res.resume();
+        return reject(new Error(`github responded ${res.statusCode}`));
+      }
+      let body = '';
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => { body += chunk; });
+      res.on('end', () => {
+        try { resolve(JSON.parse(body)); } catch (err) { reject(err); }
+      });
+    });
+    req.on('error', reject);
+    req.setTimeout(15000, () => req.destroy(new Error('github timeout')));
+  });
+}
 
 async function fetchRepos() {
   const fresh = cache.data && Date.now() - cache.at < TTL;
@@ -28,13 +56,10 @@ async function fetchRepos() {
   }
 
   try {
-    const res = await fetch(
+    const raw = await getJSON(
       `https://api.github.com/users/${USER}/repos?per_page=100&sort=pushed`,
-      { headers },
+      headers,
     );
-    if (!res.ok) throw new Error(`github responded ${res.status}`);
-
-    const raw = await res.json();
     const repos = raw
       .filter((r) => !r.fork && !r.archived)
       .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
@@ -109,6 +134,11 @@ app.use((_req, res) => {
   res.status(404).sendFile(join(__dirname, 'public', '404.html'));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`moonlight on http://localhost:${PORT}  (user: ${USER})`);
+const server = app.listen(PORT, HOST, () => {
+  console.log(`listening on http://${HOST}:${PORT}  (user: ${USER}, node ${process.version})`);
+});
+server.on('error', (err) => {
+  console.error(`could not bind ${HOST}:${PORT} — ${err.message}`);
+  console.error('set PORT or SERVER_PORT to the port your host allocated');
+  process.exit(1);
 });
