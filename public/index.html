@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>miket-tsx — Discord bots in Node.js</title>
+<meta name="description" content="miket-tsx, 17, India. Discord bots in Node.js and TypeScript. Every repo loads live from GitHub.">
+<meta name="theme-color" content="#05070f">
+<meta name="color-scheme" content="dark">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mikey.js.org/">
+<meta property="og:title" content="miket-tsx — Discord bots in Node.js">
+<meta property="og:description" content="17, India. Bots, open source, running at 3am.">
+<meta property="og:image" content="https://mikey.js.org/avatar.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="/avatar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- ── preloader ── -->
+<div id="preloader">
+  <div class="pre-sky"><span class="pre-moon"></span></div>
+  <p class="pre-line"><span style="--i:0">the</span><span style="--i:1">moonlight</span><span style="--i:2">follows</span><span style="--i:3">me</span></p>
+  <div class="pre-bar"><i></i></div>
+  <span class="pre-pct">00</span>
+</div>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+<div id="cursor-light" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#top">
+    <img src="/avatar.png" alt="" width="28" height="28">
+    <span>miket-tsx</span>
+  </a>
+  <nav>
+    <a href="#stack">stack</a>
+    <a href="#repos">repos</a>
+    <a href="#about">about</a>
+    <a href="https://github.com/miket-tsx" target="_blank" rel="noopener" class="nav-gh">github ↗</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ── hero ── -->
+  <section class="hero">
+    <div class="moonfield" aria-hidden="true"><div class="moon"></div><div class="haze"></div></div>
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="dot"></span> 17 · india · self-taught</p>
+      <h1>I build bots<br>that run while<br><em>you sleep.</em></h1>
+      <p class="lede">
+        Node.js and TypeScript, mostly Discord. Every repository on this page loads
+        straight from GitHub — including the ones I haven't written yet.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/miket-tsx" target="_blank" rel="noopener">GitHub</a>
+        <button class="btn" id="discord" data-handle="miket.tsx">
+          <span>discord: miket.tsx</span>
+        </button>
+        <a class="btn ghost" href="#repos">see the repos ↓</a>
+      </div>
+    </div>
+
+    <div class="hero-disc" aria-hidden="true">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <img src="/avatar.png" alt="miket-tsx" width="220" height="220">
+      <span class="disc-label">miket.tsx</span>
+    </div>
+  </section>
+
+  <!-- ── stack ── -->
+  <section id="stack" class="section">
+    <h2 class="sec-head"><span class="num">01</span> stack</h2>
+    <div class="stack-grid">
+      <div class="stack-block">
+        <p class="stack-label">languages</p>
+        <ul class="chips">
+          <li class="chip hot">JavaScript</li>
+          <li class="chip hot">TypeScript</li>
+          <li class="chip">Java</li>
+          <li class="chip">Python</li>
+          <li class="chip learning">Rust <small>learning</small></li>
+        </ul>
+      </div>
+      <div class="stack-block">
+        <p class="stack-label">runtime &amp; apis</p>
+        <ul class="chips">
+          <li class="chip">Node.js</li>
+          <li class="chip">discord.js v14</li>
+          <li class="chip">Components V2</li>
+          <li class="chip">Groq</li>
+          <li class="chip">REST</li>
+        </ul>
+      </div>
+      <div class="stack-block">
+        <p class="stack-label">tools</p>
+        <ul class="chips">
+          <li class="chip">Git</li>
+          <li class="chip">GitHub Pages</li>
+          <li class="chip">Docker</li>
+          <li class="chip">Linux</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── repos ── -->
+  <section id="repos" class="section">
+    <div class="sec-row">
+      <h2 class="sec-head"><span class="num">02</span> repositories</h2>
+      <p class="live" id="repo-status"><span class="pulse"></span> fetching from github</p>
+    </div>
+    <div class="repo-grid" id="repo-grid"></div>
+    <p class="repo-foot" id="repo-foot"></p>
+  </section>
+
+  <!-- ── about ── -->
+  <section id="about" class="section about">
+    <h2 class="sec-head"><span class="num">03</span> about</h2>
+    <div class="about-grid">
+      <div>
+        <p class="big">
+          I'm miket, 17, from India. I write things for Discord mostly —
+          slash commands, components, moderation logic, an AI staff member or two.
+        </p>
+        <p>
+          I started with JavaScript, moved into TypeScript because types stop me shipping
+          broken handlers at 2am, and I'm picking up Rust for the parts Node is bad at.
+          Everything I put out is open source. Read it, break it, tell me what I missed.
+        </p>
+      </div>
+      <ul class="facts">
+        <li><span>based</span><strong>India</strong></li>
+        <li><span>age</span><strong>17</strong></li>
+        <li><span>focus</span><strong>Discord bots</strong></li>
+        <li><span>discord</span><strong>miket.tsx</strong></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© <span id="year">2026</span> miket-tsx</span>
+  <span class="foot-links">
+    <a href="https://github.com/miket-tsx" target="_blank" rel="noopener">github</a>
+    <a href="#" id="discord2" data-handle="miket.tsx">discord</a>
+    <a href="#top">top ↑</a>
+  </span>
+</footer>
+
+<!-- ── music dock ── -->
+<aside class="dock" id="dock">
+  <button class="dock-btn" id="play" aria-label="Play Golden Brown">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </button>
+  <div class="dock-meta">
+    <strong>Golden Brown</strong>
+    <span>The Stranglers</span>
+  </div>
+</aside>
+<audio id="bgm" src="/golden-brown.mp3" loop preload="none"></audio>
+
+<script src="/app.js" defer></script>
+</body>
+</html>
