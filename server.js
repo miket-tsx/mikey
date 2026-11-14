@@ -94,6 +94,7 @@ app.get('/healthz', (_req, res) => {
 app.use(
   express.static(join(__dirname, 'public'), {
     extensions: ['html'],
+    dotfiles: 'allow',
     setHeaders(res, path) {
       if (/\.(png|jpe?g|webp|avif|svg|woff2|mp3|ogg)$/.test(path)) {
         res.setHeader('Cache-Control', 'public, max-age=604800');
