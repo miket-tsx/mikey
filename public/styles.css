@@ -104,7 +104,9 @@ body::after {
     0 0 240px 90px rgba(96, 132, 224, .12),
     inset -30px -20px 70px rgba(20, 30, 60, .55);
   opacity: .42;
-  filter: blur(.6px);
+  filter: blur(.6px) saturate(.9);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 52%, rgba(0,0,0,.55) 68%, transparent 78%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 52%, rgba(0,0,0,.55) 68%, transparent 78%);
   animation: moonbreath 14s ease-in-out infinite;
 }
 .moon::after {
@@ -208,7 +210,7 @@ body::after {
   height: 100%;
   width: 0;
   background: linear-gradient(90deg, transparent, var(--blue), transparent);
-  animation: load 2.2s var(--ease) forwards;
+  animation: load 1.9s var(--ease) forwards;
 }
 @keyframes load { to { width: 100%; } }
 .pre-pct {

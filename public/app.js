@@ -9,11 +9,11 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const start = performance.now();
   const min = reduced ? 300 : 1900;
 
-  let n = 0;
   const tick = () => {
-    n = Math.min(99, n + Math.random() * 9);
-    pct.textContent = String(Math.floor(n)).padStart(2, '0');
-    if (performance.now() - start < min) requestAnimationFrame(tick);
+    const t = Math.min(1, (performance.now() - start) / min);
+    const eased = 1 - Math.pow(1 - t, 2.2);
+    pct.textContent = String(Math.min(99, Math.floor(eased * 100))).padStart(2, '0');
+    if (t < 1) requestAnimationFrame(tick);
     else finish();
   };
 
@@ -237,6 +237,7 @@ addEventListener('scroll', () => {
     try {
       await audio.play();
       dock.classList.add('playing');
+      dock.classList.remove('missing');
     } catch (err) {
       dock.classList.remove('playing');
       if (audio.error || err.name === 'NotSupportedError') {
